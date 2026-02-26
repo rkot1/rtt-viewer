@@ -1,0 +1,23 @@
+{
+  "productName": "RTT Viewer",
+  "version": "0.1.0",
+  "identifier": "com.rtt-viewer.app",
+  "build": {
+    "frontendDist": "../ui"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "title": "RTT Viewer",
+        "width": 1100,
+        "height": 700
+      }
+    ]
+  },
+  "plugins": {},
+  "bundle": {
+    "active": true,
+    "icon": ["icons/icon.png"]
+  }
+}

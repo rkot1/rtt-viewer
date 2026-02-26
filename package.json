@@ -1,0 +1,13 @@
+{
+  "name": "rtt-viewer",
+  "version": "0.1.0",
+  "scripts": {
+    "tauri": "tauri"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  },
+  "dependencies": {
+    "@tauri-apps/plugin-dialog": "^2.6.0"
+  }
+}

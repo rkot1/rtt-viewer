@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RTT Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="toolbar">
+            <span class="title">▸ RTT</span>
+            <span class="dot" id="dot"></span>
+            <select id="probeSelect">
+                <option value="">— probe —</option>
+            </select>
+            <button class="btn" id="btnRefreshProbes" title="Refresh probes">⟳</button>
+            <select id="profileSelect">
+                <option value="">— profile —</option>
+            </select>
+            <button class="btn green" id="btnConnect">Connect</button>
+            <button class="btn" id="btnProfiles">Profiles</button>
+            <span class="sep"></span>
+            <button class="btn" id="btnMock">Mock</button>
+            <input type="text" id="search" placeholder="Find…">
+            <button class="btn" id="btnSearchMode" title="Click to cycle: Find → Regex → Filter">Find</button>
+            <button class="btn" id="btnPrev" title="Previous match">▲</button>
+            <button class="btn" id="btnNext" title="Next match">▼</button>
+            <span id="searchInfo" style="color:var(--dim);font-size:10px;min-width:40px"></span>
+            <button class="btn red" id="btnClear">Clear</button>
+            <!-- <select id="exportFormat" style="width:60px">
+                <option value="json">JSON</option>
+                <option value="csv">CSV</option>
+                <option value="txt">TXT</option>
+            </select>
+            <button class="btn blue" id="btnExport">Export</button>
+            <button class="btn" id="btnImport">Import</button>  -->
+            <div class="stats"><span id="count">0</span> logs</div>
+        </div>
+        <div class="termbar" id="termbar"></div>
+        <div class="tagbar" id="tagbar">
+            <span class="level-chip" data-level="error">ERR</span>
+            <span class="level-chip" data-level="warn">WRN</span>
+            <span class="level-chip" data-level="info">INF</span>
+            <span class="level-chip" data-level="debug">DBG</span>
+            <span class="tagbar-sep"></span>
+        </div>
+
+        <div class="log-area" id="logArea">
+            <div class="empty">Select a profile and click Connect<br>or click Mock to test</div>
+        </div>
+    </div>
+
+    <!-- Profile Manager Modal -->
+    <div class="modal-bg" id="profilesModal">
+        <div class="modal" style="width:520px">
+            <button class="modal-close" id="closeProfilesModal">✕</button>
+            <h3>Profiles</h3>
+            <div class="subtitle">Manage your target configurations</div>
+            <div class="profile-list" id="profileList"></div>
+            <button class="btn green" id="btnAddProfile" style="width:100%;text-align:center;">+ New Profile</button>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal-bg" id="editModal">
+        <div class="modal">
+            <button class="modal-close" id="closeEditModal">✕</button>
+            <h3 id="editTitle">New Profile</h3>
+            <div class="subtitle" id="editSubtitle">Create a new target configuration</div>
+            <label>Profile Name</label>
+            <input type="text" id="profName" placeholder="e.g. SADR3000_app">
+            <label>Chip</label>
+            <input type="text" id="profChip" placeholder="e.g. nRF5340_xxAA">
+            <div class="hint">Run <code>probe-rs chip list</code> to see supported chips</div>
+            <label>Core Index</label>
+            <input type="number" id="profCore" value="0" min="0" max="3" style="width:80px">
+            <div class="hint">0 = app core, 1 = net core (nRF5340)</div>
+            <label>RTT Control Block Address</label>
+            <div class="field-row">
+                <input type="text" id="profAddr" placeholder="e.g. 0x20031010">
+            </div>
+            <div class="hint">Leave empty to scan RAM (slower). Set for faster connection.</div>
+            <div class="elf-section">
+                <div class="elf-title">Extract from ELF file</div>
+                <div class="field-row">
+                    <button class="btn blue" id="btnPickElf" style="width:100%;text-align:center">Browse for .elf
+                        file…</button>
+                </div>
+                <div class="elf-path" id="elfPath"></div>
+                <div class="success-msg" id="elfSuccess"></div>
+                <div class="error-msg" id="elfError"></div>
+            </div>
+            <div class="error-msg" id="editError"></div>
+            <div class="actions">
+                <div><button class="btn red" id="btnDeleteProfile" style="display:none">Delete</button></div>
+                <div class="actions-right">
+                    <button class="btn" id="editCancel">Cancel</button>
+                    <button class="btn green" id="editSave">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+
+</html>
